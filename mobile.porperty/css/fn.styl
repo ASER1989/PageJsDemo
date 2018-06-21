@@ -1,0 +1,45 @@
+display(e)
+  if e=="box"
+    display box
+    display:-moz-box;
+    display:-webkit-box;
+  if e=="flex"
+    display flex
+    display:-moz-flex;
+    display:-webkit-flex;
+  else
+    display e
+vendor(prop, args)
+  -webkit-{prop} args
+  -moz-{prop} args
+  {prop} args
+
+border-radius()
+  vendor('border-radius', arguments)
+
+box-shadow()
+  vendor('box-shadow', arguments)
+box-orient()
+  vendor('box-orient', arguments)
+transform()
+  vendor('transform', arguments)
+transition()
+  vendor('transition', arguments)
+animation()
+  vendor('animation',arguments)
+user-select()
+  vendor('user-select',arguments)
+box-flex()
+  vendor('box-flex',arguments)
+
+h()
+  height arguments
+  line-height arguments
+wh()
+  width arguments
+  height arguments
+
+em(v)
+  return (v/16) rem
+//em(v)
+//  return (v*750/320)rpx

@@ -1,0 +1,194 @@
+#orderdetail {
+  background: #fff;
+}
+#orderdetail .ctx-box {
+  background: #f1f3f6;
+}
+#orderdetail .ctx-form-item {
+  width: 20rem;
+  margin-bottom: 0.4375rem;
+  padding: 0.625rem 0.625rem;
+  color: #6b6b6b;
+  line-height: 1.625rem;
+  font-size: 0.8125rem;
+  background-color: #fff;
+}
+#orderdetail .form-icon {
+  height: 1rem;
+  margin-top: 0.25rem;
+  margin-right: 0.3125rem;
+  float: left;
+}
+#orderdetail .form-icon-add {
+  width: 1.3125rem;
+}
+#orderdetail .form-right {
+  float: right;
+}
+#orderdetail .form-text {
+  color: #6b6b6b;
+  line-height: 1.25rem;
+  letter-spacing: 1px;
+  font-size: 0.8125rem;
+  margin-left: 1.25rem;
+  width: 16.875rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  padding-top: 0.625rem;
+}
+#orderdetail .form-text img {
+  max-width: 14.375rem;
+  max-height: 10rem;
+}
+#orderdetail .form-sel {
+  color: #000;
+  position: relative;
+  font-weight: 600;
+}
+#orderdetail .form-sel:after {
+  content: ">";
+}
+#orderdetail .form-textarea {
+  border: 0;
+  resize: none;
+  outline: 0;
+  color: #333;
+  overflow: hidden;
+  height: 4.125rem;
+  width: 15.625rem;
+  margin-left: 1.25rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  padding-top: 0.625rem;
+}
+#orderdetail .form-input {
+  text-align: right;
+  color: #000;
+  font-weight: 600;
+}
+#orderdetail .form-submit {
+  width: 100%;
+  text-align: center;
+  padding-top: 1.25rem;
+}
+#orderdetail .form-submit >a {
+  display: inline-block;
+  width: 10.625rem;
+  height: 2.6875rem;
+  line-height: 2.6875rem;
+  -webkit-border-radius: 1.875rem;
+  -moz-border-radius: 1.875rem;
+  border-radius: 1.875rem;
+  background-color: #3f7bff;
+  color: #fff;
+  text-align: center;
+  font-size: 0.8125rem;
+  -webkit-box-shadow: 0 3px 10px #a0a0a0;
+  -moz-box-shadow: 0 3px 10px #a0a0a0;
+  box-shadow: 0 3px 10px #a0a0a0;
+}
+#orderdetail ul,
+#orderdetail li {
+  list-style: none;
+}
+#orderdetail .order-history {
+  padding-top: 1.25rem;
+}
+#orderdetail .order-history >li {
+  display: block;
+  width: 18.75rem;
+  position: relative;
+  min-height: 1.25rem;
+}
+#orderdetail .order-history >li:after {
+  position: absolute;
+  content: ' ';
+  width: 0.125rem;
+  height: 1.25rem;
+  top: -0.625rem;
+  background-color: #cee2f4;
+  left: 0.625rem;
+}
+#orderdetail .order-history >li:before {
+  position: absolute;
+  content: ' ';
+  width: 0.125rem;
+  height: 100%;
+  background-color: #cee2f4;
+  left: 0.625rem;
+}
+#orderdetail .order-history >li:last-child::before {
+  display: none;
+}
+#orderdetail .order-history .list-circle {
+  display: block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: solid 0.125rem #cee2f4;
+  -webkit-border-radius: 0.75rem;
+  -moz-border-radius: 0.75rem;
+  border-radius: 0.75rem;
+  position: absolute;
+  background-color: #fff;
+  left: 0.3125rem;
+  top: 0.4375rem;
+  z-index: 1;
+}
+#orderdetail .order-history .history-item {
+  font-size: 0.75rem;
+  color: #808080;
+  margin-left: 1.875rem;
+}
+#orderdetail .order-history .history-item .title {
+  font-size: 0.625rem;
+  color: #a0a0a0;
+  height: 1.625rem;
+  line-height: 1.625rem;
+}
+#orderdetail .order-history .history-item .opt-call {
+  color: #3f7bff !important;
+}
+#orderdetail .order-history .history-item .opt-call img {
+  width: 1.125rem;
+  vertical-align: middle;
+  margin-top: -0.125rem;
+  margin-right: 0.3125rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+#orderdetail .pd-bottom-60 {
+  padding-bottom: 3.75rem;
+}
+#orderdetail .bottom {
+  font-size: 0.75rem;
+  padding: 0.625rem 0.625rem;
+  color: #707070;
+  height: 3.375rem;
+  border-top: solid 1px #389bea;
+  line-height: 2.1875rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 10;
+}
+#orderdetail .btn-def {
+  display: inline-block;
+  width: 6rem;
+  height: 2.0625rem;
+  line-height: 2.0625rem;
+  -webkit-border-radius: 1.875rem;
+  -moz-border-radius: 1.875rem;
+  border-radius: 1.875rem;
+  background-color: #3f7bff;
+  color: #fff;
+  text-align: center;
+  font-size: 0.75rem;
+  -webkit-box-shadow: 0 3px 10px #a0a0a0;
+  -moz-box-shadow: 0 3px 10px #a0a0a0;
+  box-shadow: 0 3px 10px #a0a0a0;
+}

@@ -1,0 +1,192 @@
+#worklist {
+  background: #f1f3f6;
+}
+#worklist .head {
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6.375rem;
+  padding: 0.625rem 0.9375rem;
+}
+#worklist .head >div {
+  margin-top: 0.625rem;
+  height: 1.875rem;
+  line-height: 1.875rem;
+}
+#worklist .pd-top-112 {
+  padding-top: 7rem;
+}
+#worklist .page-top {
+  font-size: 0.75rem;
+  height: 2rem;
+  line-height: 2rem;
+  color: #909090;
+  -webkit-box-shadow: 0 0 0.375rem #d0d0d0;
+  -moz-box-shadow: 0 0 0.375rem #d0d0d0;
+  box-shadow: 0 0 0.375rem #d0d0d0;
+  padding: 0 0.9375rem;
+}
+#worklist .page-top >img {
+  width: 0.875rem;
+  vertical-align: middle;
+  margin-right: 0.3125rem;
+}
+#worklist .page-top .idx-top-opt {
+  color: #3f7bff;
+  font-size: 0.75rem;
+}
+#worklist .page-top .idx-top-msg {
+  float: right;
+}
+#worklist .page-top .idx-top-msg >img {
+  width: 1.625rem;
+}
+#worklist .ctrl-select-bg {
+  width: 8.3125rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  position: relative;
+}
+#worklist .ctrl-select-bg:before {
+  position: absolute;
+  width: 1.75rem;
+  height: 1.625rem;
+  border: solid 0.0625rem #3f7bff;
+  content: " ";
+  right: 0;
+  top: 0.0625rem;
+  display: block;
+  z-index: 0;
+}
+#worklist .ctrl-select-bg:after {
+  position: absolute;
+  right: 0.5625rem;
+  top: 0.75rem;
+  border-top: solid 0.375rem #3f7bff;
+  border-right: solid 0.375rem transparent;
+  border-left: solid 0.375rem transparent;
+  z-index: 0;
+  content: ' ';
+}
+#worklist .ctrl-select {
+  border: solid 0.0625rem #3f7bff;
+  -webkit-border-radius: 0.125rem;
+  -moz-border-radius: 0.125rem;
+  border-radius: 0.125rem;
+  text-align: right;
+  color: #5b5b5b;
+  position: relative;
+  width: 8.3125rem;
+  padding-left: 0.625rem;
+  height: 1.75rem;
+  line-height: 1.75rem;
+  background: transparent;
+}
+#worklist .ctx-box {
+  background: #f1f3f6;
+}
+#worklist .ctx-form-item {
+  width: 18.75rem;
+  margin: 0 auto 0.625rem auto;
+  padding: 0.625rem 0.625rem;
+  color: #6b6b6b;
+  line-height: 1.625rem;
+  font-size: 0.8125rem;
+  background-color: #fff;
+}
+#worklist .ctx-order-info {
+  width: 17.5rem;
+  display: box;
+  display: -moz-box;
+  display: -webkit-box;
+  display: box;
+  font-size: 0.75rem;
+  border-bottom: solid 1px #f0f0f0;
+  padding-bottom: 0.625rem;
+}
+#worklist .ctx-order-info .order-img {
+  width: 4.0625rem;
+  height: 3.4375rem;
+  line-height: 3.4375rem;
+  text-align: center;
+  overflow: hidden;
+}
+#worklist .ctx-order-info .order-img >img {
+  max-width: 3.4375rem;
+  max-height: 3.4375rem;
+}
+#worklist .ctx-order-info .order-detail {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  line-height: normal;
+}
+#worklist .ctx-order-info .order-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+#worklist .ctx-order-info .order-state {
+  width: 2.8125rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #63b00e;
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  align-items: center;
+}
+#worklist .ctx-order-info .order-state.order-state-orange {
+  color: #fe5c02;
+}
+#worklist .ctx-order-detail {
+  width: 17.5rem;
+  display: box;
+  display: -moz-box;
+  display: -webkit-box;
+  display: box;
+  font-size: 0.75rem;
+}
+#worklist .ctx-order-detail .order-ctx {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+#worklist .ctx-order-detail .order-ctx >p {
+  line-height: normal;
+  padding-top: 0.4375rem;
+  padding-right: 0.625rem;
+}
+#worklist .ctx-order-detail .order-call {
+  width: 2.1875rem;
+  display: flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  align-items: center;
+}
+#worklist .ctx-order-detail .order-call a {
+  display: flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  align-items: center;
+}
+#worklist .ctx-order-detail .order-call img {
+  width: 2rem;
+}
+#worklist .form-right {
+  float: right;
+}
+#worklist .hide-houselist,
+#worklist .hide-item {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 5.75rem;
+  height: 2.0625rem;
+  opacity: 0;
+  border: 0;
+  background: #fff;
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta charset="UTF-8">
+    <title>完成工单</title>
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/comm.css">
+    <link rel="stylesheet" href="css/workdone.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <script src="js/lib/me.require.js"></script>
+</head>
+<body id="workdone" class="show">
+<section class="ctx-form">
+
+    <div class="ctx-form-item">
+        <img src="./img/add/icon_2.png" class="form-icon" alt="">
+        完成情况
+        <div>
+                <textarea class="form-textarea" placeholder="输入内容不超过200字" name="result"
+                          data-bind-event="onfieldChange" data-event-type="change"></textarea>
+        </div>
+    </div>
+    <div class="ctx-form-item">
+        <img src="./img/add/icon_3.png" class="form-icon" alt="">
+        上传照片
+    </div>
+    <div class="hide-item-box">
+        <input id="__file_up" type="file" class="hide-item" data-bind-event="onImgUpload"
+               data-event-type="change">
+        <img src="./img/add/button_add.png" class="form-icon-add" alt="">
+    </div>
+
+</section>
+<div class="form-submit">
+    <a href="javascript:void(0)" bind-tap="onSubmit">提交信息</a>
+</div>
+<!--<div class="msg-box">-->
+<!--<div class="msg-txt">-->
+
+<!--</div>-->
+<!--</div>-->
+<script type="text/javascript">
+    require(['http://res.wx.qq.com/open/js/jweixin-1.2.0.js', './js/page.js', './js/lib/underscore.js', './js/wxconfig.js', './js/lib/exif.js', './js/imguper.js', './js/msg.js'], function () {
+        page({
+            reqData: {},
+            onReady: function () {
+                this.reqData.reportId=this.getParam("id");
+            },
+            onUserReady: function (user, house, defhouse) {
+                this._eventRender();
+            },
+            onfieldChange: function (e, _that) {
+                var el = $(this);
+                _that.reqData[el.attr("name")] = el.val();
+            },
+            onImgUpload: function (e, _that) {
+                msg.show("文件上中...");
+
+                var file = document.getElementById("__file_up").files[0], el = $(this);
+                var imguper = new imgUper({
+                    onComplete: function (resp) {
+
+                        if (resp.code > 0) {
+                            _that.reqData.handlePicUrl = resp.obj;
+                            msg.hide(function () {
+                                el.parent().find("img").attr("src","").attr("src", _that.getHost() + resp.obj).removeClass("form-icon-add").addClass("form-img");
+                            });
+
+                        } else {
+                            msg.show("文件上传失败!");
+                        }
+                    },
+                    onFail: function () {
+                        msg.show("文件上传失败!");
+                    }
+                });
+
+                imguper.UpladFile(file, _that.getHost() + 'wx/upload?openid=' + _that.getOpenid());
+
+
+            },
+            onSubmit: function (e, _that) {
+
+                msg.show("数据保存中");
+
+                $.ajax({
+                    url: "wx/handleReport",
+                    data: _that.reqData,
+                    type: "post",
+                    success: function (resp) {
+                        var data = Object.prototype.toString.call(resp) == "[object String]" ? JSON.parse(resp) : resp;
+                        if (data.code < 0) {
+                            msg.show(data.msg, {autoHide: 1500});
+                        } else {
+                            msg.show("操作成功！", {
+                                autoHide: 1500, afterHide: function () {
+                                    window.location = "./worklist.html";
+                                }
+                            });
+                        }
+                    }
+                })
+            }
+
+        });
+    });
+</script>
+</body>
+</html>

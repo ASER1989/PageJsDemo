@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>资产管理</title>
+
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../css/common.css">
+
+    <style>
+        body {
+            padding: 20px; /*overflow-y: scroll;*/
+        }
+    </style>
+</head>
+<body>
+<fieldset class="layui-elem-field">
+    <legend><font size="3">详情</font></legend>
+    <div id="__ctx_box" class="layui-field-box">
+
+    </div>
+</fieldset>
+
+
+<script type="text/html" id="_temp">
+    <div class="layui-row">
+        <div class="layui-col-xs6">
+            <form class="layui-form layui-form-pane">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">报事房号</label>
+                    <div class="layui-input-block">
+                        <div class="layui-form-label-col layui-text layui-input" style="padding-left: 10px;">
+                            <%=roomNumber%>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">报事内容</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input layui-text layui-form-label-col" style="padding-left: 10px;">
+                            <%=reportContent%>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <img class="report-Pic-Url" style="max-height:200px; max-width: 200px;"
+                             src="<%=reportPicUrl%>"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选择工程师</label>
+                    <div class="layui-input-block">
+                        <select class="layui-select" name="handleId" id="__handlePerson">
+                            <option>加载中...</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" name="repairId" value="<%=id%>">
+                <div class="layui-form-item ">
+                    <button class="layui-btn" lay-submit="" lay-filter="handle">立即提交</button>
+                </div>
+            </form>
+        </div>
+        <div class="layui-col-xs6">
+            <ul class="layui-timeline" style="margin-left: 50px;">
+                <%for(var i=0,item;item=reportRepairProcess[i++];){%>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title"><%=timeFn(item.createTime)%></h3>
+                        <p>
+                            <%=item.processType=='2'?"已指派"+item.processContent+"处理工单":(item.processType=='3'?item.processContent+"已完成工单":item.processContent)%>
+                        </p>
+                        <%if(item.processType=="3" && handlePicUrl!=null){%>
+                        <img class="report-Pic-Url" style="max-width:200px; max-height: 200px;"
+                             src="<%=host+'propmgt/'+handlePicUrl%>" alt="">
+                        <%}%>
+                    </div>
+                </li>
+                <%}%>
+            </ul>
+        </div>
+    </div>
+</script>
+
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
+    function timeFn(t) {
+        if (t) {
+            var date = new Date(Number(t));
+            var m = date.getMonth() + 1;
+            return date.getFullYear() + '/' + (m[1] ? m + 1 : '0' + m) + '/' + date.getDate()
+                + " " + date.getHours() + ':' + date.getMinutes() + ":" + date.getSeconds();
+        }
+
+        return '';
+    }
+    layui.config({
+        base: "../js/"
+    }).use(['form', 'layer', 'jquery', 'laydate', 'network', 'url', 'underscore'], function () {
+
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : parent.layer,
+            laydate = layui.laydate,
+            $ = layui.jquery,
+            url = layui.url,
+            _ = layui.underscore,
+            network = layui.network(layui.jquery);
+
+
+        var reqid = url.getparam("id");
+
+        laydate.render({
+            elem: '.newsTime'
+        });
+
+        $.ajax({
+            url: "propmgt/mgt/getReport",
+            data: {id: reqid},
+            success: function (data) {
+                data.obj.reportPicUrl = data.obj.reportPicUrl ? (network.apihost + 'propmgt/' + data.obj.reportPicUrl) : "";
+                data.obj.host = network.apihost;
+
+                var temp = _.template($("#_temp").html());
+                $("#__ctx_box").html(temp(data.obj));
+                form.render();
+                getPerson(data.obj.personId);
+            }
+        });
+
+        function getPerson(person) {
+            $.ajax({
+                url: "propmgt/mgt/getRepairPersons",
+                success: function (data) {
+                    var html = [];
+                    for (var i = 0, item; item = data.obj[i++];) {
+                        html.push("<option value='" + item.id + "' " + (person == item.id ? "selected" : "") + " >" + item.name + "</option>")
+                    }
+
+                    $("#__handlePerson").html(html.join(""));
+                    form.render();
+                }
+            })
+        }
+
+        form.on("submit(handle)", function (formdata) {
+            var index = top.layer.msg('处理中，请稍候', {icon: 16, time: false, shade: 0.8})
+            $.ajax({
+                url: "propmgt/mgt/appoint",
+                data: formdata.field,
+                success: function () {
+                    top.layer.close(index);
+                    top.layer.msg("保存成功！");
+                    layer.closeAll("iframe");
+                    //刷新父页面
+                    parent.location.reload();
+                }
+            })
+            return false;
+        });
+
+        $("body").on("click", '.report-Pic-Url', function () {
+            var src = $(this).attr("src");
+
+            var tlayer = top == null ? layui : top.layui;
+            var idx = tlayer.layer.open({
+                title: "图片预览",
+                type: 2,
+                content: src,
+                shadeClose: true,
+                closeBtn: 2,
+                area: ['900px', '600px']
+            });
+
+        })
+    })
+
+</script>
+</body>
+</html>

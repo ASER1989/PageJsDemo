@@ -1,0 +1,151 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  background-color: #cbf4fa;
+  z-index: 0;
+}
+.bg >img {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.bg .copyright {
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  text-align: center;
+  color: #fff;
+}
+.ctx-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 3;
+}
+.ctx-box .hide {
+  display: none;
+}
+.ctx-box .title {
+  width: 100%;
+  text-align: center;
+  margin-top: 60px;
+}
+.ctx-box .title >img {
+  width: 700px;
+}
+.ctx-box .btn {
+  width: 100%;
+  text-align: center;
+  margin-top: 60px;
+}
+.ctx-box .btn-start {
+  width: 233px;
+  height: 98px;
+  display: inline-block;
+}
+.ctx-box .btn-start >img {
+  width: 100%;
+}
+.ctx-box .btn-start .btn-hover {
+  display: none;
+}
+.ctx-box .btn-start:hover .btn-hover {
+  display: block;
+}
+.ctx-box .btn-start:hover .btn-def {
+  display: none;
+}
+.ctx-box .loading {
+  width: 100%;
+  text-align: center;
+  margin-top: 100px;
+}
+.ctx-box .loading >img {
+  width: 317px;
+}
+.ctx-box .luck-box {
+  width: 720px;
+  margin: 30px auto 0 auto;
+}
+.ctx-box .luck-users {
+  width: 720px;
+  height: 300px;
+  list-style: none;
+}
+.ctx-box .luck-users >li {
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  margin: 10px 0;
+  padding: 10px 10px;
+  list-style: none;
+  float: left;
+  background: url("../reg/box_head2.png") no-repeat;
+  display: block;
+  text-align: center;
+  font-size: 0;
+}
+.ctx-box .luck-users >li >img {
+  width: 72px;
+  height: 72px;
+  vertical-align: middle;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  border-radius: 16px;
+  display: inline-block;
+  margin-top: -2px;
+  margin-left: -2px;
+}
+.ctx-box .luck-users >li.checked {
+  background: url("../reg/box_head1.png") no-repeat;
+}
+.ctx-box .luck-users >li.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+.ctx-box .res-head {
+  width: 120px;
+  height: 120px;
+  line-height: 120px;
+  margin: 20px auto;
+  list-style: none;
+  background: url("../reg/box_head2.png") no-repeat;
+  text-align: center;
+  font-size: 0;
+}
+.ctx-box .res-head >img {
+  width: 72px;
+  height: 72px;
+  vertical-align: middle;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  border-radius: 16px;
+  display: inline-block;
+  margin-top: -2px;
+  margin-left: -2px;
+}
+.ctx-box .res-name {
+  width: 100%;
+  text-align: center;
+  color: #9a1b3e;
+  font-size: 23px;
+  font-weight: 600;
+}

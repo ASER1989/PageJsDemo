@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>途见ERP</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="layui/css/font.css">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="css/main.css" media="all"/>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<div class="login">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <input class="layui-input" name="username" placeholder="用户名" lay-verify="required" type="text"
+                   autocomplete="off">
+        </div>
+        <div class="layui-form-item">
+            <input class="layui-input" name="password" placeholder="密码" lay-verify="password" type="password"
+                   autocomplete="off">
+        </div>
+
+        <button class="layui-btn login_btn" lay-submit="" lay-filter="login">登录</button>
+    </form>
+
+</div>
+
+
+<script type="text/javascript" src="layui/layui.js"></script>
+<script type="text/javascript">
+    layui.config({
+        base: "./js/"
+    }).use(['network', 'form', 'layer', 'jquery','login'], function () {
+        var form = layui.form,
+            network = layui.network(layui.jquery),
+            layer = parent.layer === undefined ? layui.layer : parent.layer,
+            $ = layui.jquery;
+            var login= layui.login(layer);
+
+        form.verify({
+            password: [
+                /^[\S]{3,18}$/
+                , '密码必须3到18位，且不能出现空格'
+            ]
+        });
+
+        form.on("submit(login)", function (data) {
+            var load=layer.load();
+
+            $.ajax({
+                url: "assets/login",
+                type: "post",
+                data: data.field,
+                success: function (res) {
+                    layer.close(load);
+                    res.code<0 && layer.msg(res.msg);
+                    res.code>0 && login.hide();
+                    console.log("login result===", res);
+
+                }
+            })
+
+
+            return false;
+            window.location.href = "../../index.html";
+            return false;
+        })
+    })
+
+</script>
+</body>
+</html>

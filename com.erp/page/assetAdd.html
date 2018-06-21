@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>资产管理</title>
+
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all"/>
+
+    <style>
+        body {
+            padding: 20px; /*overflow-y: scroll;*/
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">资产编号</label>
+        <div class="layui-input-block">
+            <input name="assetsNumber" type="text" class="layui-input newsName" lay-verify="required"
+                   placeholder="请输入资产编号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">资产名称</label>
+        <div class="layui-input-block">
+            <input name="assetsName" type="text" class="layui-input newsName" lay-verify="required"
+                   placeholder="请输入资产名称">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">资产型号</label>
+        <div class="layui-input-block">
+            <input name="measureUnits" type="text" class="layui-input newsName" lay-verify="required"
+                   placeholder="请输入资产型号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">资产单位</label>
+        <div class="layui-input-block">
+            <input name="assetsType" type="text" class="layui-input newsName" lay-verify="required"
+                   placeholder="请输入资产单位">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">资产总价</label>
+        <div class="layui-input-block">
+            <input name="totalPrice" type="text" class="layui-input newsName" lay-verify="required"
+                   placeholder="请输入资产总价">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">采购日期</label>
+            <div class="layui-input-inline">
+                <input name="purchaseDate" type="text" class="layui-input newsTime" lay-verify="required|date">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">资产状态</label>
+            <div class="layui-input-block">
+                <input type="radio" name="state" value="1" class="tuijian" title="闲置">
+                <input type="radio" name="state" value="2" class="newsStatus" title="使用中">
+                <input type="radio" name="state" value="3" class="newsStatus" title="报废">
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="processState" value="2">
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="addNews">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.config({
+        base: "../js/"
+    }).use(['form', 'layer', 'jquery', 'laydate', 'network'], function () {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : parent.layer,
+            laydate = layui.laydate,
+            $ = layui.jquery,
+            network =layui.network(layui.jquery);
+
+        laydate.render({
+            elem: '.newsTime'
+        });
+
+
+        form.on("submit(addNews)", function (data) {
+            //弹出loading
+            var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
+            $.ajax({
+                url:'assets/card/save',
+                type:"POST",
+                data:data.field,
+                success:function (data) {
+                    top.layer.close(index);
+                    top.layer.msg("文章添加成功！");
+                    layer.closeAll("iframe");
+                    //刷新父页面
+                    parent.location.reload();
+                }
+            })
+
+            return false;
+        })
+
+    })
+
+</script>
+</body>
+</html>

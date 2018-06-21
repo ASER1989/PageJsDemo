@@ -1,0 +1,44 @@
+.purch-box {
+  width: 100%;
+  overflow-x: auto;
+  position: relative;
+  border: solid 1px #e6e6e6;
+}
+.purch-box-ctx {
+  min-width: 1024px;
+}
+.purch-col {
+  width: 139px;
+  float: left;
+  text-align: center;
+  padding: 0 15px;
+  border: solid 1px #e6e6e6;
+  margin-left: -1px;
+  border-top: 0;
+  line-height: 56px;
+}
+.purch-col.purch-col-small {
+  width: 39px;
+}
+.purch-fixed-right {
+  position: fixed;
+  right: 19px;
+  border: solid #fff 1px;
+  background-color: #fff;
+  z-index: 99;
+}
+.purch-form-head {
+  color: #666;
+  background-color: #f2f2f2;
+}
+.purch-form-head .purch-fixed-right {
+  background-color: #f2f2f2;
+  border: 0 !important;
+}
+.purch-form-head .purch-col {
+  height: 50px;
+  line-height: 50px;
+}
+.hide {
+  display: none !important;
+}

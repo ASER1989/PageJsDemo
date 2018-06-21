@@ -1,0 +1,124 @@
+@import 'fn'
+*
+  margin 0
+  padding 0
+  user-select none;
+.bg
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+  overflow hidden
+  background-color #cbf4fa
+  z-index 0
+  >img
+    width 100%
+    position absolute
+    bottom 0
+    left 0
+  .copyright
+    position absolute
+    bottom 0
+    height 50px
+    left 0
+    right 0
+    z-index 1
+    text-align center
+    color #ffffff
+.ctx-box
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+  overflow hidden
+  z-index 3
+  .hide
+    display none
+  .title
+    width 100%
+    text-align center
+    margin-top 60px
+    >img
+      width 700px
+  .btn
+    width 100%
+    text-align center
+    margin-top 60px;
+
+  .btn-start
+    width 233px
+    height 98px
+    display inline-block
+    >img
+      width 100%
+    .btn-hover
+      display none
+    &:hover
+      .btn-hover
+        display block
+      .btn-def
+        display none
+  .loading
+    width 100%
+    text-align center
+    margin-top 100px
+    >img
+      width 317px
+
+  .luck-box
+    width 720px
+    margin  30px  auto 0 auto
+  .luck-users
+    width 720px
+    height 300px
+    list-style none
+    >li
+      width 100px
+      height 100px
+      line-height 100px
+      margin 10px 0
+      padding 10px 10px
+      list-style none
+      float left
+      background url("../reg/box_head2.png") no-repeat
+      display block
+      text-align center
+      font-size 0
+      >img
+        width: 72px;
+        height: 72px;
+        vertical-align: middle;
+        border-radius: 16px;
+        display: inline-block;
+        margin-top: -2px;
+        margin-left -2px
+      &.checked
+        background url("../reg/box_head1.png") no-repeat
+      &.hide
+        opacity  0;
+        visibility hidden
+  .res-head
+    width 120px
+    height 120px
+    line-height 120px
+    margin 20px auto
+    list-style none
+    background url("../reg/box_head2.png") no-repeat
+    text-align center
+    font-size 0
+    >img
+      width: 72px;
+      height: 72px;
+      vertical-align: middle;
+      border-radius: 16px;
+      display: inline-block;
+      margin-top: -2px;
+      margin-left -2px
+  .res-name
+    width 100%
+    text-align center
+    color #9a1b3e
+    font-size 23px
+    font-weight 600

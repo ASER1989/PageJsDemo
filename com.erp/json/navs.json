@@ -1,0 +1,34 @@
+[
+  {
+    "title": "资产管理",
+    "icon": "icon-computer",
+    "href": "page/asset.html",
+    "spread": false
+  },
+  {
+    "title": "资产采购",
+    "icon": "icon-computer",
+    "href": "page/purchase.html",
+    "spread": false
+  },
+  {
+    "title": "人员管理",
+    "icon": "&#xe630;",
+    "href": "",
+    "spread": false,
+    "children": [
+      {
+        "title": "合伙人",
+        "icon": "&#xe61c;",
+        "href": "page/404.html",
+        "spread": false
+      },
+      {
+        "title": "管理员",
+        "icon": "&#xe61c;",
+        "href": "page/404.html",
+        "spread": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>资产采购</title>
+
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all"/>
+
+    <style>
+        body {
+            padding: 20px; /*overflow-y: scroll;*/
+        }
+    </style>
+</head>
+<body>
+<blockquote class="layui-elem-quote news_search">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
+        </div>
+        <a class="layui-btn search_btn">查询</a>
+    </div>
+    <div class="layui-inline">
+        <a class="layui-btn layui-btn-normal newsAdd_btn">采购申请</a>
+    </div>
+
+</blockquote>
+
+<table id="test" lay-filter="test"></table>
+<div id="pager"></div>
+<script type="text/html" id="toolbar">
+    <a class="layui-btn layui-btn-xs" lay-event="view"><i class="layui-icon">&#xe615;</i> 查看</a>
+    <a class="layui-btn layui-btn-red layui-btn-xs" lay-event="collection"><i class="layui-icon">&#xe640;</i>删除</a>
+</script>
+
+
+<script type="text/html" id="datetimeTpl">
+    {{timeFn(d.createTime || d.purchaseDate) || ''}}
+</script>
+<script type="text/html" id="stateTpl">
+    {{# if(d.processState==1){ }}
+    <button class="layui-btn layui-btn-xs layui-btn-norma">闲置</button>
+    {{# }else if(d.processState==2){ }}
+    <button class="layui-btn layui-btn-xs layui-btn-danger">使用中</button>
+    {{# }else{ }}
+    <button class="layui-btn layui-btn-xs layui-btn-disabled">报废</button>
+    {{# } }}
+</script>
+
+
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
+    function timeFn(t) {
+        if (t) {
+            var date = new Date(Number(t));
+            var m = date.getMonth() + 1;
+            return date.getFullYear() + '/' + (m[1] ? m + 1 : '0' + m) + '/' + date.getDate();
+//           +" "+date.getHours()+':'+date.getMinutes()+":"+date.getSeconds();
+        }
+
+        return '';
+    }
+    layui.config({
+        base: "../js/"
+    }).use(['table', 'network', 'jquery', 'laypage'], function () {
+        var table = layui.table,
+            $ = layui.jquery,
+            network = layui.network(layui.jquery),
+            laypage = layui.laypage;
+
+
+        table.render({
+            elem: '#test'
+            , height: 410
+            , id: "list-table"
+//            , url: network.apihos+'assets/card/page'
+            , toolbar: '#toolbarDemo'
+            , cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                , {field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true}
+                , {field: 'purchaseNumber', title: '采购编号', width: 120, edit: 'text'}
+                , {field: 'applicantName', title: '申请人', width: 120}
+                , {field: 'amount', title: '采购数量'}
+                , {field: 'totalPrice', title: '采购总价', width: 150}
+                , {
+                    field: 'state', title: '采购状态', width: 150, templet: function (d) {
+                        return d.state == 1 ? "<font color='red'>未入库</font>" : "<font color='green'>已入库</font>";
+                    }
+                }
+                , {
+                    field: 'processState', title: '流程状态', width: 150, templet: function (d) {
+                        return d.processState == 1 ? "<font color='red'>进行中</font>" : "<font color='green'>已结束</font>";
+                    }
+                }
+                , {
+                    field: 'createTime', title: '申请时间', width: 180, sort: false, templet: function (d) {
+                        return timeFn(d.createTime);
+                    }
+                }
+                , {field: '', title: '操作', width: 180, fixed: 'right', unresize: true, templet: '#toolbar'}
+            ]]
+            , skin: 'row' //表格风格
+            , even: true
+//            ,size: 'lg' //尺寸
+
+            , page: false //是否显示分页
+//            , limits: [3,10, 15, 20]
+//            , limit: 20 //每页默认显示的数量,
+
+            , response: function (data) {
+                console.log(data);
+            }
+            , loading: true //请求数据时，是否显示loading
+        });
+
+
+        function loadData(page, limit, callback) {
+            var idx = Number(page) - 1;
+            $.ajax({
+                url: "assets/purchase/page",
+                data: {
+                    pageSize: limit,
+                    page: idx
+                },
+                success: function (res) {
+                    var data = res.obj.content;
+                    table.reload('list-table', {
+                        elem: '#test',
+                        data: data
+                    })
+
+                    typeof callback == "function" && callback.call(null, res.obj)
+
+                }
+            })
+        }
+
+
+        function pagerInit(count) {
+            laypage.render(
+                {
+                    elem: "pager",
+                    limit: 10,
+                    limits: [10, 20, 30],
+                    count: count,
+                    layout: ['prev', 'page', 'next', 'limit'],
+                    jump: function (obj, first) {
+                        if (!first) {
+                            loadData(obj.curr, obj.limit);
+                        }
+                    }
+                }
+            )
+        }
+
+        loadData(1, 10, function (obj) {
+            pagerInit(obj.totalElements);
+        })
+
+        //渲染
+
+
+        //监听工具条
+        table.on('tool(test)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'collection') {
+                layer.confirm('真的删除行么', function (index) {
+                    layer.msg(data.id);
+                });
+            } else if (obj.event === 'view') {
+                layer.prompt({
+                    formType: 2
+                    , value: data.username
+                }, function (value, index) {
+                    obj.update({
+                        username: value
+                    });
+                    layer.close(index);
+                });
+            }
+        });
+
+        //监听排序
+        table.on('sort(test)', function (obj) {
+            console.log(this, obj.field, obj.type)
+
+            //return;
+            //服务端排序
+            table.reload('test', {
+                initSort: obj
+                //,page: {curr: 1} //重新从第一页开始
+                , where: { //重新请求服务端
+                    key: obj.field //排序字段
+                    , order: obj.type //排序方式
+                }
+            });
+        });
+
+
+        var $ = layui.jquery, active = {
+            getCheckData: function () {
+                var checkStatus = table.checkStatus('test')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            , getCheckLength: function () {
+                var checkStatus = table.checkStatus('test')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () {
+                var checkStatus = table.checkStatus('test');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+            , parseTable: function () {
+                table.init('parse-table-demo', {
+                    limit: 3
+                });
+            }
+        };
+
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+        $(".newsAdd_btn").click(function () {
+            var index = layui.layer.open({
+                title: "新增资产",
+                type: 2,
+                content: "purchaseAdd.html",
+                success: function (layero, index) {
+                    setTimeout(function () {
+                        layui.layer.tips('点击此处返回资产列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    }, 500)
+                }
+            })
+            layui.layer.full(index);
+        })
+
+        $(".test_btn").on("click", function () {
+
+            window.parent.loginCtrl.show();
+
+        });
+    });
+</script>
+</body>
+</html>

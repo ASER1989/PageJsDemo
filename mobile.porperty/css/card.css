@@ -1,0 +1,88 @@
+#card .bg {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  background-color: #fcf2ec;
+  z-index: 0;
+}
+#card .bg .top-img {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+}
+#card .bg .bottom-img {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+#card .bg .middle-img {
+  width: 100%;
+  position: absolute;
+  bottom: 4.221875rem;
+  left: 0;
+  z-index: 0;
+}
+#card .bg .copyright {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.625rem;
+  height: 1.25rem;
+  z-index: 1;
+  color: #fff;
+}
+#card .card-ctx {
+  position: absolute;
+  top: 9.3125rem;
+  left: 0;
+  right: 0;
+  bottom: 4.221875rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  border-left: solid 0.1875rem #ff0038;
+  border-right: solid 0.1875rem #ff0038;
+  box-sizing: border-box;
+  z-index: 10;
+}
+#card .card-ctx .title {
+  width: 15.625rem;
+  margin: 0 auto;
+}
+#card .card-ctx .title >img {
+  width: 100%;
+}
+#card .card-ctx ul,
+#card .card-ctx li {
+  list-style: none;
+}
+#card .card-ctx-ul {
+  width: 18.1875rem;
+  margin: 0 auto;
+}
+#card .card-ctx-ul li {
+  display: block;
+  width: 6.0625rem;
+  height: 5rem;
+  float: left;
+  margin: 0.3125rem auto 0 auto;
+  text-align: center;
+  font-size: 0;
+}
+#card .card-ctx-ul li >img {
+  width: 3.875rem;
+}
+#card .card-ctx-ul li >p {
+  text-align: center;
+  font-size: 0.625rem;
+  color: #550909;
+}

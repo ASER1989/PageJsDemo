@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>活动抽奖</title>
+    <link rel="stylesheet" href="css/luckdraw.css">
+</head>
+<body>
+<div class="bg">
+    <img src="./reg/bg.png" alt="">
+    <div class="copyright">
+        &copy;2018 途见信息技术有限公司
+    </div>
+</div>
+<div class="ctx-box">
+    <div class="title">
+        <img src="./reg/title.png" alt="">
+    </div>
+    <div class="btn">
+        <a href="javascript:void(0);" class="btn-start">
+            <img class="btn-def" src="./reg/btn_1.png" alt="">
+            <img class="btn-hover" src="./reg/btn_2.png" alt="">
+        </a>
+    </div>
+    <div class="loading hide">
+        <img src="./reg/word.png" alt="">
+    </div>
+    <div class="luck-box hide">
+        <ul class="luck-users" id="_luck_users">
+
+        </ul>
+    </div>
+    <div class="result hide">
+        <div class="res-head hide">
+            <img src="" alt="">
+        </div>
+        <div class="res-name">
+           暂无人可参与抽奖
+        </div>
+    </div>
+</div>
+
+<script src="js/lib/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function imgauto(src, fn) {
+            var img = new Image();
+            img.onload = fn;
+            img.src = src;
+        }
+
+
+        imgauto('./reg/box_head2.png');
+
+        function mkdata(data, fn) {
+            var k = 12, html = [];
+            for (var i = 0, item; item = data[i++];) {
+                var idx = html.length >= 6 ? k-- : i;
+                var li = "<li class='hide' data-idx='" + idx + "' " + (item.win == 2 ? 'data-identity="1"' : '') + ">" +
+                    "<img src='" + item.headimgurl + "'>" +
+                    "</li>";
+                html.push(li);
+
+                if (item.win == 2) {
+                    $(".result .res-head").removeClass("hide").find("img").attr("src", item.headimgurl);
+                    $(".result .res-name").html("恭喜【" + item.nickname + "】获奖！");
+
+                }
+
+                imgauto(item.headimgurl, fn);
+            }
+
+            $("#_luck_users").html(html.join(""));
+
+        }
+
+
+        $(".btn-start").on("click", function (e) {
+            $(".btn-start").hide();
+            $(".loading").removeClass("hide");
+            var time = (+new Date());
+
+
+            $.ajax({
+                url: "http://source.gsrunhe.com/assets/pub/lottery",
+                success: function (data) {
+
+                    var items = build(data.obj)
+
+                    if(items.length<=1){
+                        mkdata(items);
+                        $(".loading").addClass("hide");
+                        _onEnd();
+                        return;
+                    }
+
+                    var len = 12;
+                    mkdata(items, function () {
+                        len--;
+                        len == 0 && start();
+                    })
+
+
+                }
+            })
+
+            function build(obj) {
+                function randomNum(minNum, maxNum) {
+                    switch (arguments.length) {
+                        case 1:
+                            return parseInt(Math.random() * minNum + 1, 10);
+                            break;
+                        case 2:
+                            return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10);
+                            break;
+                        default:
+                            return 0;
+                            break;
+                    }
+                }
+
+                function _build() {
+                    if (obj.length < 12) {
+                        var ritem = obj[Math.round(randomNum(0, obj.length))];
+                        if (ritem) {
+//                            ritem.win != 2 && obj.push(ritem);
+                            obj.push(ritem);
+                        }
+                        _build();
+                    }
+                }
+
+                obj.length>1 && _build();
+
+                return obj;
+            }
+
+            function start() {
+                var _time = (+new Date());
+                var et = 3000 - (_time - time);
+                et = et > 0 ? et : 0;
+                setTimeout(function () {
+                    $(".loading").addClass("hide");
+                    $(".luck-box").removeClass("hide");
+                    lucky(_onEnd);
+
+                }, et);
+            }
+            function _onEnd() {
+                setTimeout(function () {
+                            $(".luck-box").addClass("hide");
+                            $(".result").removeClass("hide");
+                        },800);
+            }
+        })
+
+        function _effect(el,t) {
+            var _that = this;
+            _that.el =el;
+            return function() {
+                setTimeout(function () {
+                    _that.el.removeClass("hide")
+                },t);
+            }
+        }
+        function lucky(callback) {
+            var li = $("#_luck_users"), els = [];
+            for (var i = 1; i <= 12; i++) {
+                var elitem = li.find("li[data-idx='" + i + "']");
+                els.push(elitem);
+                setTimeout(new _effect(elitem,i*100),60);
+            }
+
+
+            function _select(el) {
+                li.find("li").removeClass("checked");
+                el.addClass("checked");
+            }
+
+            var speed = 10, addval = 1, times = 6, ridx = 0;
+
+            function _start() {
+                ridx = ridx >= 12 ? 0 : ridx;
+                _select(els[ridx]);
+                if (speed >= 350 && $(els[ridx]).attr("data-identity") == "1") {
+                    typeof callback == "function" && callback.call();
+                    return;
+                }
+
+                ridx++;
+                times--;
+                addval += 0.5;
+                speed = speed < 350 ? speed + addval : speed;
+
+                setTimeout(_start, speed);
+
+            }
+
+            setTimeout(_start,1500);
+        }
+
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+#orderlist {
+  background: #f1f3f6;
+}
+#orderlist .head {
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2rem;
+  line-height: 2rem;
+}
+#orderlist .page-top {
+  font-size: 0.75rem;
+  height: 2rem;
+  line-height: 2rem;
+  color: #909090;
+  -webkit-box-shadow: 0 0 0.375rem #d0d0d0;
+  -moz-box-shadow: 0 0 0.375rem #d0d0d0;
+  box-shadow: 0 0 0.375rem #d0d0d0;
+  padding: 0 0.9375rem;
+}
+#orderlist .page-top >img {
+  width: 0.875rem;
+  vertical-align: middle;
+  margin-right: 0.3125rem;
+}
+#orderlist .page-top .idx-top-opt {
+  color: #3f7bff;
+  font-size: 0.75rem;
+}
+#orderlist .page-top .idx-top-msg {
+  float: right;
+}
+#orderlist .page-top .idx-top-msg >img {
+  width: 1.625rem;
+}
+#orderlist .ctx-box {
+  background: #f1f3f6;
+  padding-top: 2.8125rem;
+}
+#orderlist .ctx-form-item {
+  width: 18.75rem;
+  margin: 0 auto 0.625rem auto;
+  padding: 0.625rem 0.625rem;
+  color: #6b6b6b;
+  line-height: 1.625rem;
+  font-size: 0.8125rem;
+  background-color: #fff;
+}
+#orderlist .ctx-order-info {
+  width: 17.5rem;
+  display: box;
+  display: -moz-box;
+  display: -webkit-box;
+  display: box;
+  font-size: 0.75rem;
+  border-bottom: solid 1px #f0f0f0;
+  padding-bottom: 0.625rem;
+}
+#orderlist .ctx-order-info .order-img {
+  width: 4.0625rem;
+  height: 3.4375rem;
+  line-height: 3.4375rem;
+  text-align: center;
+  overflow: hidden;
+}
+#orderlist .ctx-order-info .order-img >img {
+  max-width: 3.4375rem;
+  max-height: 3.4375rem;
+}
+#orderlist .ctx-order-info .order-detail {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  line-height: normal;
+}
+#orderlist .ctx-order-info .order-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+#orderlist .ctx-order-info .order-state {
+  width: 3.125rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #63b00e;
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  align-items: center;
+}
+#orderlist .ctx-order-info .order-state.order-state-orange {
+  color: #fe5c02;
+}
+#orderlist .ctx-order-detail {
+  width: 17.5rem;
+  display: box;
+  display: -moz-box;
+  display: -webkit-box;
+  display: box;
+  font-size: 0.75rem;
+}
+#orderlist .ctx-order-detail .order-ctx {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+#orderlist .ctx-order-detail .order-ctx >p {
+  line-height: normal;
+  padding-top: 0.4375rem;
+  padding-right: 0.625rem;
+}
+#orderlist .ctx-order-detail .order-call {
+  width: 2.1875rem;
+  display: flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  align-items: center;
+}
+#orderlist .ctx-order-detail .order-call a {
+  display: flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  align-items: center;
+}
+#orderlist .ctx-order-detail .order-call img {
+  width: 2rem;
+}
+#orderlist .form-right {
+  float: right;
+}
+#orderlist .hide-houselist,
+#orderlist .hide-item {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 5.75rem;
+  height: 2.0625rem;
+  opacity: 0;
+  border: 0;
+  background: #fff;
+}

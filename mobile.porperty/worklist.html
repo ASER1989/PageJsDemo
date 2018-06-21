@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta charset="UTF-8">
+    <title>报事列表</title>
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/comm.css">
+    <link rel="stylesheet" href="css/worklist.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <script src="js/lib/me.require.js"></script>
+</head>
+<body id="worklist" class="show">
+<div class="head">
+    <div>
+        <label>社区</label>
+        <div class="ctrl-select-bg form-right">
+            <select name="commityId" class="ctrl-select" data-bind-event="onParamChange" data-event-type="change">
+                <option value="0">全部</option>
+                <option value="1">国际社区1期</option>
+                <option value="4">国际社区2期</option>
+            </select>
+        </div>
+        <input type="text" placeholder="">
+
+    </div>
+    <div class="clearfix">
+        <label>工单状态</label>
+        <div class="ctrl-select-bg form-right">
+            <select name="state" class="ctrl-select" data-bind-event="onParamChange" data-event-type="change">
+                <option value="0">全部</option>
+                <option value="2">待完成</option>
+                <option value="3">已完成</option>
+            </select>
+        </div>
+    </div>
+</div>
+<section class="ctx-box pd-top-112">
+
+</section>
+<script type="text/html" id="__temp">
+    <div class="ctx-form-item" data-event-type="click" data-bind-event="toPage" data-id="<%=id%>">
+        <div class="ctx-order-info">
+            <div class="order-img">
+                <img src="<%=host+reportPicUrl%>" alt="">
+            </div>
+            <div class="order-detail">
+                <div class="order-title">报修</div>
+                <p>报修时间：<%=format(createTime)%></p>
+                <%if(repairPerson){%>
+                <p>派单时间：<%=format(modifyTime)%></p>
+                <%}%>
+            </div>
+            <div class="order-state  <%=state==1?'order-state-orange':''%>">
+                <!--<%=state==1?"处理中":"已完成"%>-->
+                <!--<%if(state!='3'){%>-->
+                <!--<a href="javascript:void(0)">开工</a>-->
+                <!--<%}%>-->
+            </div>
+        </div>
+        <div class="ctx-order-detail">
+            <div class="order-ctx">
+                <p>
+                    <%=reportContent%>
+                </p>
+
+                <p>联系人：<%=contactName%></p>
+
+            </div>
+            <div class="order-call">
+                <a href="tel:<%=phoneNumber%>">
+                    <img src="./img/button_phone.png" alt="">
+                </a>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/javascript">
+    require(['http://res.wx.qq.com/open/js/jweixin-1.2.0.js', './js/page.js', './js/lib/underscore.js', './js/wxconfig.js', './js/lib/exif.js', './js/imguper.js', './js/msg.js'], function () {
+        page({
+            reqData: {},
+            onReady: function () {
+            },
+            timeFormat: function (t) {
+                if (t) {
+                    var date = new Date(Number(t));
+                    var m = date.getMonth() + 1,M=date.getMinutes();
+                    return date.getFullYear() + '/' + (m[1] ? m + 1 : '0' + m) + '/' + date.getDate()
+                        + " " + date.getHours() + ':' + (M[1] ? M : '0' + M);
+                }
+
+                return '';
+            },
+            onLoad: function () {
+                var _that = this;
+                msg.show("数加载中...")
+                $.ajax({
+                    url: "wx/getReport",
+                    data: _that.reqData,
+                    success: function (resp) {
+                        var res = Object.prototype.toString.call(resp) == "[object String]" ? JSON.parse(resp) : resp;
+                        if (res.code < 0) {
+                            msg.show(res.msg);
+                            return;
+                        }
+                        msg.hide();
+                        if (res.obj.length > 0) {
+                            var data = res.obj,
+                                temp = _.template($("#__temp").html()),
+                                html = [];
+                            for (var i = 0, item; item = data[i++];) {
+                                item.host = _that.getHost();
+                                item.format = _that.timeFormat;
+                                html.push(temp(item));
+                            }
+
+                            $(".ctx-box").html(html.join(""));
+                        }
+                        else {
+                            $(".ctx-box").html("<div class='no-data'>暂无工单</div> ");
+                        }
+                        _that._eventRender();
+                    }
+                });
+            },
+            onUserReady: function (user, house, defhouse) {
+
+                this._eventRender();
+                this.onLoad();
+            },
+            toPage: function () {
+                var id = $(this).attr("data-id");
+                window.location = "./workdetail.html?id=" + id;
+            },
+            onParamChange: function (e, _that) {
+                var val = $(this).val(),
+                    name = $(this).attr("name");
+                if (val == "0") {
+                    var namelist = ['commityId', 'state'];
+                    var reqd = {};
+
+                    for (var i = 0, k; k = namelist[i++];) {
+                        if(k!=name &&  _that.reqData[k]){
+                            reqd[k] = _that.reqData[k];
+                        }
+                    }
+                    _that.reqData = reqd;
+
+                    _that.onLoad();
+                    return
+                }
+
+                _that.reqData[name] = val;
+                _that.onLoad();
+            }
+
+        });
+    });
+</script>
+</body>
+</html>

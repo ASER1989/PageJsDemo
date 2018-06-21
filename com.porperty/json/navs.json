@@ -1,0 +1,52 @@
+[
+  {
+    "title": "业主绑定",
+    "icon": "&#xe613;",
+    "href": "javascript:_norole()",
+    "spread": false,
+    "children":[
+
+    ]
+  },
+  {
+    "title": "工单管理",
+    "icon": "&#xe63c;",
+    "href": "page/workorder.html",
+    "spread": false
+  },
+  {
+    "title": "缴费管理",
+    "icon": "&#xe60a;",
+    "href": "javascript:_norole()",
+    "spread": false,
+    "children": [
+
+    ]
+  },
+  {
+    "title": "门禁管理",
+    "icon": "&#xe61b;",
+    "href": "javascript:_norole()",
+    "spread": false,
+    "children": [
+
+    ]
+  },
+  {
+    "title": "推送管理",
+    "icon": "&#xe63a;",
+    "href": "javascript:_norole()",
+    "spread": false,
+    "children": [
+
+    ]
+  },
+  {
+    "title": "业主通知",
+    "icon": "&#xe645;",
+    "href": "javascript:_norole()",
+    "spread": false,
+    "children": [
+    ]
+  }
+]

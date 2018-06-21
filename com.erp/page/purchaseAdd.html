@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>资产采购</title>
+
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all"/>
+
+    <style>
+        body {
+            padding: 20px; /*overflow-y: scroll;*/
+        }
+    </style>
+    <link rel="stylesheet" href="../css/purchase.css">
+</head>
+<body>
+<!--[if lt IE 9]>
+<script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<form class="layui-form">
+    <div class="layui-btn-group">
+        <button lay-submit="" lay-filter="addNews" class="layui-btn layui-btn-sm"  title="保存">
+            <i class="layui-icon">&#xe63c;</i>
+        </button>
+        <a class="layui-btn layui-btn-sm" data-event="add" title="添加行">
+            <i class="layui-icon">&#xe654;</i>
+        </a>
+        <a class="layui-btn layui-btn-sm" data-event="remove" title="删除">
+            <i class="layui-icon">&#xe640;</i>
+        </a>
+    </div>
+    <div class="purch-box">
+        <div class="layui-row purch-box-ctx purch-form-head">
+            <div class="purch-col purch-col-small"></div>
+            <div class="purch-col">资产名称</div>
+            <div class="purch-col">资产型号</div>
+            <div class="purch-col">资产单位</div>
+            <div class="purch-col">资产数量</div>
+            <div class="purch-col">资产单价</div>
+        </div>
+        <!--<div id="purchase-form" class="layui-row purch-box-ctx">-->
+            <!--<div class="purch-col purch-col-small"><input type="checkbox" lay-skin="primary"  /></div>-->
+            <!--<div class="purch-col">-->
+                <!--<input type="text" class="layui-input-inline layui-input">-->
+            <!--</div>-->
+            <!--<div class="purch-col">-->
+                <!--<input type="text" class="layui-input-inline layui-input">-->
+            <!--</div>-->
+            <!--<div class="purch-col">-->
+                <!--<input type="text" class="layui-input-inline layui-input">-->
+            <!--</div>-->
+            <!--<div class="purch-col">-->
+                <!--<input type="text" class="layui-input-inline layui-input">-->
+            <!--</div>-->
+            <!--<div class="purch-col">-->
+                <!--<input type="text" class="layui-input-inline layui-input">-->
+            <!--</div>-->
+
+        <!--</div>-->
+    </div>
+    <!--<div class="layui-form-item">-->
+        <!--<div class="layui-input-block">-->
+            <!--<button class="layui-btn" lay-submit="" lay-filter="addNews">保存</button>-->
+            <!--<button type="reset" class="layui-btn layui-btn-primary">新增</button>-->
+            <!--<button type="reset" class="layui-btn layui-btn-primary">删除</button>-->
+        <!--</div>-->
+    <!--</div>-->
+</form>
+<script type="text/html" id="toolbar">
+
+
+    <a class="layui-btn layui-btn-primary {{d.islast?'layui-disabled':''}}" style="border:0;"
+       lay-event="{{d.islast?'none':'collection'}}">
+        <i class="layui-icon" style="color:red;">&#xe640;</i>
+    </a>
+    {{# if(d.islast){ }}
+    <a class="layui-btn layui-btn-primary" style="border:0;" lay-event="add">
+        <i class="layui-icon">&#xe654;</i>
+    </a>
+    {{# }  }}
+</script>
+
+<script src="../layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.config({
+        base: "../js/"
+    }).use(['form', 'layer', 'jquery', 'laydate', 'network', 'table'], function () {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : parent.layer,
+            laydate = layui.laydate,
+            $ = layui.jquery,
+            table = layui.table,
+            network = layui.network(layui.jquery);
+
+        function makeItem(name, placeholder, verify) {
+
+                return '<div class="purch-col">'+
+                    "<input type='text' lay-verify='" + verify + "' class='layui-input-inline layui-input' value='' name='" + name + "' placeholder='" + placeholder + "' />"+
+                '</div>';
+
+        }
+
+        function makeTool() {
+            return '<div class="purch-col purch-fixed-right">'+
+            '<a class="layui-btn layui-btn-primary" style="border:0;" data-event="collection">'+
+            '<i class="layui-icon" style="color:red;">&#xe640;</i>'+
+            '</a>'+
+            '<a class="layui-btn layui-btn-primary" style="border:0;" data-event="add">'+
+            '  <i class="layui-icon">&#xe654;</i>'+
+            '</a>'+
+            '</div>';
+        }
+
+        function makeCol() {
+            return ' <div class="purch-col purch-col-small"><input type="checkbox" lay-skin="primary"  /></div>'
+        }
+        $('.layui-btn-group .layui-btn').on('click', function () {
+            var type = $(this).data('event');
+            pageEvent[type] ? pageEvent[type].call(this) : '';
+        });
+
+
+        var pageEvent = {
+            remove: function (data) {
+                var els = $(".purch-goods .layui-form-checkbox.layui-form-checked");
+                if(els.length==0){
+                    layer.msg("请选择需要删除的数据",{icon:2,time:1500});
+                    return
+                }
+                var pop= layer.confirm('真的删除行么', function (index) {
+                    for(var i=0,el;el=els[i++];){
+                        $(el).parents(".purch-goods").remove();
+                    }
+                    layer.close(pop);
+                });
+            },
+            add: function () {
+                var els=['<div class="layui-row purch-box-ctx purch-goods">'];
+                els.push(makeCol());
+                els.push(makeItem('goodsName','请输入资产名称','required'));
+                els.push(makeItem('goodsType','请输入资产型号','required'));
+                els.push(makeItem('measureUnits','请输入资产单位','required'));
+                els.push(makeItem('goodsAmount','请输入资产数量','required'));
+                els.push(makeItem('singlePrice','请输入资产单价','required'));
+//                els.push(makeTool());
+                els.push('</div>');
+                $(".purch-box").append(els.join(''));
+                form.render();
+            }
+        }
+
+        pageEvent.add();
+
+        form.on("submit(addNews)", function (formdata) {
+            var els = $(".purch-goods");
+            if(els.length==0){
+                layer.msg("没有需要保存的数据",{icon:2,time:1500});
+                return false;
+            }
+
+
+            var reqData={amount:els.length,totalPrice:0},orderAmt=0;
+            for(var i=0, el;el=els[i++];){
+                var key="purchGoods["+(parseInt(i)-1)+"].";
+
+                var inputs =$(el).find("input[type!='checkbox']");
+
+                var item={};
+                for(var k=0,input;input=inputs[k++];){
+                    item[input.name] = input.value;
+                    reqData[key+input.name]=input.value;
+                }
+                reqData[key+"totalPrice"] = item.singlePrice*item.goodsAmount;
+                reqData.totalPrice+=reqData[key+"totalPrice"];
+//                reqitems.push({purchGoods:item});
+            }
+
+
+            //弹出loading
+            var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
+            $.ajax({
+                url: 'assets/purchase/save',
+                type: "POST",
+                data: reqData,
+                success: function (resp) {
+                    top.layer.close(index);
+                    top.layer.msg("保存成功！");
+                    layer.closeAll("iframe");
+                    //刷新父页面
+                    parent.location.reload();
+                }
+            })
+
+            return false;
+        })
+
+    })
+
+</script>
+</body>
+</html>

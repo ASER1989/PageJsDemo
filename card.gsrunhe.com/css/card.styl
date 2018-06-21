@@ -1,0 +1,77 @@
+@import 'fn'
+#card
+  .bg
+    position fixed
+    left 0
+    right 0
+    top 0
+    bottom 0
+    overflow hidden
+    background-color #fcf2ec
+    z-index 0
+    .top-img
+      width 100%
+      position absolute
+      top 0
+      left 0
+      z-index 20
+    .bottom-img
+      width 100%
+      position absolute
+      bottom 0
+      left 0
+      z-index 1
+    .middle-img
+      width 100%
+      position absolute
+      bottom em(67.55)
+      left 0
+      z-index 0
+    .copyright
+      position absolute
+      bottom: 0
+      left: 0
+      right 0
+      text-align center
+      font-size em(10)
+      height em(20)
+      z-index 1
+      color #ffffff
+  .card-ctx
+    position absolute
+    top em(149)
+    left 0
+    right 0
+    bottom em(67.55)
+    overflow-x hidden
+    overflow-y auto
+    -webkit-overflow-scrolling: touch;
+    border-left solid em(3) #ff0038
+    border-right solid em(3) #ff0038
+    box-sizing border-box
+    z-index 10
+    .title
+      width em(250)
+      margin 0 auto
+      >img
+        width 100%
+    ul,li
+      list-style none
+  .card-ctx-ul
+    width em(291)
+    margin 0 auto
+    li
+      display block
+      width em(97)
+      height em(80)
+      //border solid 1px #ffffff
+      float left
+      margin em(5) auto 0 auto
+      text-align center
+      font-size 0
+      >img
+        width em(62)
+      >p
+        text-align center
+        font-size em(10)
+        color #550909

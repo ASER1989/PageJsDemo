@@ -1,0 +1,99 @@
+@import 'fn'
+#orderlist
+  background #f1f3f6
+  .head
+    background #ffffff
+    position fixed
+    top 0
+    left 0
+    right 0
+    h em(32)
+  .page-top
+    font-size em(12)
+    h em(32)
+    color #909090
+    box-shadow 0 0 em(6) #d0d0d0
+    padding 0 em(15)
+    >img
+      width em(14)
+      vertical-align middle
+      margin-right em(5)
+    .idx-top-opt
+      color #3f7bff
+      font-size em(12)
+    .idx-top-msg
+      float right
+      >img
+        width em(26)
+  .ctx-box
+    background #f1f3f6
+    padding-top em(45)
+  .ctx-form-item
+    width em(300)
+    margin 0 auto em(10) auto
+    padding em(10) em(10)
+    color #6b6b6b
+    line-height em(26)
+    font-size em(13)
+    background-color #ffffff
+  .ctx-order-info
+    width em(280)
+    display box
+    font-size em(12)
+    border-bottom solid 1px #f0f0f0
+    padding-bottom em(10)
+    .order-img
+      width em(65)
+      h em(55)
+      text-align center
+      overflow hidden
+      >img
+        max-width em(55)
+        max-height em(55)
+    .order-detail
+      box-flex 1
+      line-height normal
+    .order-title
+      font-size em(13)
+      font-weight 600
+    .order-state
+      width em(50)
+      font-size em(15)
+      font-weight 600
+      color #63b00e
+      text-align center
+      vertical-align middle
+      display:flex;
+      align-items:center;
+      &.order-state-orange
+        color #fe5c02
+  .ctx-order-detail
+    width em(280)
+    display box
+    font-size em(12)
+    .order-ctx
+      box-flex 1
+      >p
+        line-height normal
+        padding-top em(7)
+        padding-right em(10)
+    .order-call
+      width em(35)
+      display flex
+      align-items center
+      a
+        display flex
+        align-items center
+      img
+        width em(32)
+  .form-right
+    float right
+  .hide-houselist,.hide-item
+    position absolute
+    right 0
+    top 0
+    width em(92)
+    height em(33)
+    opacity 0
+    border 0
+    background #ffffff

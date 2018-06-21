@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta charset="UTF-8">
+    <title>工单详情</title>
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/comm.css">
+    <link rel="stylesheet" href="css/orderdetail.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <script src="js/lib/me.require.js"></script>
+</head>
+<body id="orderdetail" class="show">
+<div class="ctx-box">
+    <script id="_temp" type="text/html">
+        <div class="ctx-form-item">
+            <img src="./img/add/icon_no.png" class="form-icon" alt="">
+            工单号
+            <div class="form-right">
+                <%=reportNumber%>
+            </div>
+        </div>
+        <div class="ctx-form-item">
+            <img src="./img/add/icon_1.png" class="form-icon" alt="">
+            报事房号
+            <div class="form-right">
+                <%=roomNumber%>
+            </div>
+        </div>
+        <div class="ctx-form-item">
+            <img src="./img/add/icon_2.png" class="form-icon" alt="">
+            报事内容
+            <div class="form-text">
+                <%=reportContent%>
+            </div>
+            <%if(reportPicUrl){%>
+            <div class="form-text">
+                <img  data-bind-event="onImgPrew" data-event-type="click" src="<%=host+reportPicUrl%>" alt="">
+            </div>
+            <%}%>
+        </div>
+
+        <div class="ctx-form-item">
+            <img src="./img/add/icon_4.png" class="form-icon" alt="">
+            联系人
+            <div class="form-right">
+                <%=contactName%>
+            </div>
+        </div>
+        <div class="ctx-form-item">
+            <img src="./img/add/icon_5.png" class="form-icon" alt="">
+            手机
+            <div class="form-right">
+                <%=phoneNumber%>
+            </div>
+        </div>
+        <ul class="ctx-form-item order-history">
+            <%for(var i=reportRepairProcess.length-1,item;item=reportRepairProcess[i--];){%>
+            <li>
+                <i class="list-circle"></i>
+                <div class="history-item">
+                    <div class="title"><%=format(item.createTime)%></div>
+                    <p>
+                        <%=item.processType=='2'?"物业中心已为您分配维修工程师：":""%><%=item.processContent%>
+                    </p>
+                    <%if(item.processType=='2'){%>
+                    <p class="opt-call">
+                        <a href="tel:<%=item.phoneNumber%>"><img src="./img/button_phone.png" alt="">联系工程师</a>
+                    </p>
+                    <%}%>
+                </div>
+            </li>
+            <%}%>
+        </ul>
+    </script>
+</div>
+<script type="text/javascript">
+    require(['http://res.wx.qq.com/open/js/jweixin-1.2.0.js', './js/page.js', './js/wxconfig.js', './js/lib/underscore.js', './js/msg.js'], function () {
+        page({
+            onReady: function () {
+                var id = this.getParam("id"), _that = this;
+                msg.show("数据加载中...");
+                wxReady(function () {
+                    _that.onImgPrew=function () {
+                        var src =$(this).attr("src");
+                        wx.previewImage({
+                            current:src,
+                            urls:[src]
+                        });
+                    }
+                    _that._eventRender();
+                });
+
+                $.ajax({
+                    url: "wx/getReportInfo",
+                    data: {id: id},
+                    success: function (resp) {
+
+                        resp = Object.prototype.toString.call("resp") == "[object String]" ? JSON.parse(resp) : resp;
+
+                        if(resp.code<0){
+                            msg.show(resp.msg);
+                            return;
+                        }
+
+                        var temp = _.template($("#_temp").html());
+                        resp.obj.host = _that.getHost();
+                        resp.obj.format = _that.timeFormat;
+                        $(".ctx-box").html(temp(resp.obj));
+                        msg.hide();
+                    }
+                });
+            },
+            timeFormat: function (t) {
+                if (t) {
+                    var date = new Date(Number(t));
+                    var m = date.getMonth() + 1,M=date.getMinutes().toString();
+                    return date.getFullYear() + '/' + (m[1] ? m + 1 : '0' + m) + '/' + date.getDate()
+                        + " " + date.getHours() + ':' + (M[1] ? M : '0' + M);
+                }
+
+                return '';
+            },
+            onUserReady: function (user, house) {
+//                console.log(user,house,store.get("user_checked_house"))
+            }
+        });
+    });
+</script>
+</body>
+</html>

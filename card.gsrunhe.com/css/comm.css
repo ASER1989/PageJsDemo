@@ -1,0 +1,83 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  outline: none;
+}
+body {
+  display: none;
+}
+body.show {
+  display: block;
+}
+ol,
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: inherit;
+}
+a:hover {
+  color: inherit;
+}
+span {
+  display: inline-block;
+}
+.clearfix {
+  clear: both;
+  overflow: hidden;
+  _zoom: 1;
+}
+.align {
+  text-align: center !important;
+}
+.align.right {
+  text-align: right !important;
+}
+.align.left {
+  text-align: left !important;
+}
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: nowrap;
+}
+.multi-ellipsis {
+  display: box;
+  display: -moz-box;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.normal {
+  font-style: normal;
+}
+.red {
+  color: #f00 !important;
+}
+.grey {
+  color: #a0a0a0;
+}
+.hide {
+  display: none;
+}
+.opacity-0 {
+  opacity: 0 !important;
+}
+.f-l {
+  float: left;
+}
+.f-r {
+  float: right;
+}
+.m-at-l {
+  margin-left: auto;
+}

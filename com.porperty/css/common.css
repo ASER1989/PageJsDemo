@@ -1,0 +1,13 @@
+.f-l {
+  float: left;
+}
+.f-r {
+  float: right;
+}
+.algin-center {
+  text-align: center;
+}
+.opt-0 {
+  opacity: 0;
+  visibility: hidden;
+}

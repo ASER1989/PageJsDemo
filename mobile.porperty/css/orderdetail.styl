@@ -1,0 +1,147 @@
+@import 'fn'
+#orderdetail
+  background #ffffff
+  .ctx-box
+    background #f1f3f6
+  .ctx-form-item
+    width em(320)
+    margin-bottom em(7)
+    padding em(10) em(10)
+    color #6b6b6b
+    line-height em(26)
+    font-size em(13)
+    background-color #ffffff
+  .form-icon
+    height: em(16)
+    margin-top em(4)
+    margin-right em(5)
+    float left
+  .form-icon-add
+    width: em(21)
+  .form-right
+    float right
+  .form-text
+    color #6b6b6b
+    line-height em(20)
+    letter-spacing 1px
+    font-size em(13)
+    margin-left em(20)
+    width em(270)
+    user-select none
+    padding-top em(10)
+    img
+      max-width em(230)
+      max-height em(160)
+  .form-sel
+    color #000000
+    position relative
+    font-weight 600
+    &:after
+      content ">"
+  .form-textarea
+    border: 0;
+    resize: none;
+    outline: 0;
+    color: #333;
+    overflow: hidden;
+    height em(66)
+    width em(250)
+    margin-left em(20)
+    user-select none
+    padding-top em(10)
+  .form-input
+    text-align right
+    color #000000
+    font-weight 600
+  .form-submit
+    width 100%
+    text-align center
+    padding-top em(20)
+    >a
+      display inline-block
+      width em(170)
+      h em(43)
+      border-radius em(30)
+      background-color #3f7bff
+      color #ffffff
+      text-align center
+      font-size em(13)
+      box-shadow 0 3px 10px #a0a0a0
+  ul,li
+    list-style none
+  .order-history
+    padding-top em(20)
+    >li
+      display block
+      width em(300)
+      position relative
+      min-height em(20)
+      &:after
+        position absolute
+        content ' '
+        width em(2)
+        height em(20)
+        top em(-10)
+        background-color #cee2f4
+        left em(10)
+      &:before
+        position absolute
+        content ' '
+        width em(2)
+        height 100%
+        background-color #cee2f4
+        left em(10)
+      &:last-child::before
+          display none
+    .list-circle
+      display block
+      width em(12)
+      height em(12)
+      border solid em(2) #cee2f4
+      border-radius em(12)
+      position absolute
+      background-color #ffffff
+      left em(5)
+      top em(7)
+      z-index 1
+    .history-item
+      font-size em(12)
+      color #808080
+      margin-left em(30)
+      .title
+        font-size em(10)
+        color #a0a0a0
+        h em(26)
+      .opt-call
+        color #3f7bff !important
+        img
+          width em(18)
+          vertical-align middle
+          margin-top em(-2)
+          margin-right em(5)
+          user-select none
+  .pd-bottom-60
+    padding-bottom em(60)
+  .bottom
+    font-size em(12)
+    padding em(10) em(10)
+    color #707070
+    height: em(54);
+    border-top: solid 1px #389bea;
+    line-height: em(35);
+    position fixed
+    bottom:0
+    left 0
+    right 0
+    background #ffffff
+    z-index 10
+  .btn-def
+    display inline-block
+    width em(96)
+    h em(33)
+    border-radius em(30)
+    background-color #3f7bff
+    color #ffffff
+    text-align center
+    font-size em(12)
+    box-shadow 0 3px 10px #a0a0a0

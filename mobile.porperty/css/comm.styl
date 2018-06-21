@@ -1,0 +1,98 @@
+@import 'fn'
+
+*
+  margin 0
+  padding 0
+  border 0
+  vertical-align: baseline;
+  box-sizing border-box
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  outline: none
+body
+  &.show
+    display block
+ol, ul
+  list-style: none;
+
+a
+  text-decoration none
+  cursor: pointer
+  color inherit
+  &:hover
+    color: inherit
+
+span
+  display inline-block
+
+.clearfix
+  clear both
+  overflow: hidden;
+  _zoom: 1;
+
+.align
+  text-align: center !important
+  &.right
+    text-align: right !important
+  &.left
+    text-align: left !important
+
+.ellipsis
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: nowrap
+
+.multi-ellipsis
+  display: box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+.normal
+  font-style normal
+
+.red
+  color #ff0000 !important
+
+.grey
+  color #a0a0a0
+
+.hide
+  display: none !important
+.opacity-0
+  opacity: 0 !important
+
+.f-l
+  float left
+
+.f-r
+  float right
+
+.m-at-l
+  margin-left auto
+
+.msg-box
+  position fixed
+  top 0
+  left 0
+  right 0
+  bottom 0
+  background rgba(0, 0, 0, 0.6)
+  z-index 99999
+  .msg-txt
+    position absolute
+    width em(200)
+    min-height em(50)
+    background #ffffff
+    border-radius em(5)
+    padding em(15) em(15)
+    left em(60)
+    top 50%
+    margin-top em(-50)
+    text-align center
+    font-size em(13)
+.no-data
+  text-align: center;
+  padding-top: em(30);
+  color #707070

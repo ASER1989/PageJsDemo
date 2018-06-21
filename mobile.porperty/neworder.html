@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta charset="UTF-8">
+    <title>报修提交</title>
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/comm.css">
+    <link rel="stylesheet" href="css/neworder.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <script src="js/lib/me.require.js"></script>
+</head>
+<body id="neworder">
+<div class="head hide">
+    <script id="_head_temp" type="text/html">
+        <div class="page-top">
+            <img src="./img/add/icon_0.png" alt="">
+            <label class="housename"><%=def.communityAddress%></label>
+            <div class="idx-top-msg idx-top-opt">
+                <select class="hide-houselist" data-bind-event="onHouseChange" data-event-type="change">
+                    <%for(var i=0,item;item=house[i++];){%>
+                    <option
+                    <%=def.id==item.id?'checked':''%> value="<%=item.id%>"> <%=item.communityAddress%></option>
+                    <%}%>
+                </select>
+                切换
+            </div>
+        </div>
+    </script>
+</div>
+<section class="ctx-form hide">
+    <script id="_form_temp" type="text/html">
+        <div class="ctx-form-item">
+            <img src="./img/add/icon_1.png" class="form-icon" alt="">
+            报事房号
+            <div class="form-right form-sel">
+                <select class="hide-houselist" data-bind-event="onHouseChange" data-event-type="change">
+                    <%for(var i=0,item;item=house[i++];){%>
+                    <option
+                    <%=def.id==item.id?'checked':''%> value="<%=item.id%>"> <%=item.communityAddress%></option>
+                    <%}%>
+                </select>
+                <label class="housename"><%=def.communityAddress%></label>
+            </div>
+        </div>
+        <div class="ctx-form-item">
+            <img src="./img/add/icon_2.png" class="form-icon" alt="">
+            报事内容
+            <div>
+                <textarea class="form-textarea" placeholder="输入内容不超过200字" name="reportContent"
+                          data-bind-event="onfieldChange" data-event-type="change"></textarea>
+            </div>
+        </div>
+        <div class="ctx-form-item">
+            <img src="./img/add/icon_3.png" class="form-icon" alt="">
+            上传照片
+            <div class="form-right hide-item-box">
+                <input id="__file_up" type="file" class="hide-item" data-bind-event="onImgUpload"
+                       data-event-type="change">
+                <img src="./img/add/button_add.png" class="form-icon-add" alt="">
+            </div>
+        </div>
+        <div class="ctx-form-item">
+            <img src="./img/add/icon_4.png" class="form-icon" alt="">
+            联系人
+            <div class="form-right">
+                <input class="form-input" type="text" value="<%=user.nickname%>" name="contactName"
+                       data-bind-event="onfieldChange" data-event-type="change">
+            </div>
+        </div>
+        <div class="ctx-form-item">
+            <img src="./img/add/icon_5.png" class="form-icon" alt="">
+            手机
+            <div class="form-right">
+                <input class="form-input" type="text" value="<%=user.phoneNumber%>" name="phoneNumber"
+                       data-bind-event="onfieldChange" data-event-type="change">
+            </div>
+        </div>
+    </script>
+</section>
+<div class="form-submit hide">
+    <a href="javascript:void(0)" data-bind-event="onSubmit" data-event-type="click">提交信息</a>
+</div>
+<!--<div class="msg-box">-->
+<!--<div class="msg-txt">-->
+
+<!--</div>-->
+<!--</div>-->
+<script type="text/javascript">
+    require(['http://res.wx.qq.com/open/js/jweixin-1.2.0.js', './js/page.js?v=1853', './js/lib/underscore.js', './js/wxconfig.js', './js/lib/exif.js', './js/imguper.js', './js/msg.js'], function () {
+        page({
+            reqData: {},
+            init:function () {
+                msg.show("信息加载中...");
+            },
+            onReady: function () {
+
+            },
+            onUserReady: function (user, house, defhouse) {
+
+                this.houseList = house;
+                this.reqData = {
+                    "communityInfo.id": defhouse.id,
+                    "communityInfo.communityAddress": defhouse.communityAddress,
+                    contactName: user.nickname,
+                    phoneNumber: user.phoneNumber,
+                    roomNumber: defhouse.communityAddress,
+                    reportContent: "",
+                    reportPicUrl: ""
+                };
+
+                var headtemp = _.template($("#_head_temp").html()),
+                    bodytemp = _.template($("#_form_temp").html());
+
+                var headhtml = headtemp({def: defhouse, house: house}),
+                    bodyhtml = bodytemp({def: defhouse, user: user, house: house});
+
+                $(".head").html(headhtml).removeClass("hide");
+                $(".ctx-form").html(bodyhtml).removeClass("hide");
+
+                $("body").removeClass("hide");
+                $(".form-submit").removeClass("hide");
+                msg.hide();
+                this._eventRender();
+            },
+            onHouseChange: function (e, _that) {
+                var selid = $(this).val();
+                var house = _.find(_that.houseList, function (item) {
+                    return item.id == selid;
+                })
+
+                _that.reqData["communityInfo.id"] = house.id;
+                _that.reqData["communityInfo.communityAddress"] = house.communityAddress;
+                _that.reqData["roomNumber"] = house.communityAddress;
+
+                $(".housename").html(house.communityAddress);
+            },
+            onfieldChange: function (e, _that) {
+                var el = $(this);
+                _that.reqData[el.attr("name")] = el.val();
+            },
+            onImgUpload: function (e, _that) {
+                msg.show("文件上中...");
+
+                var file = document.getElementById("__file_up").files[0],el = $(this);
+                var imguper = new imgUper({
+                    onComplete: function (resp) {
+
+                        if (resp.code > 0) {
+                            _that.reqData.reportPicUrl = resp.obj;
+                            msg.hide(function () {
+                                el.parent().find("img").attr("src",_that.getHost()+resp.obj);
+                            });
+
+                        } else {
+                            msg.show("文件上传失败!");
+                        }
+                    },
+                    onFail: function () {
+                        msg.show("文件上传失败!");
+                    }
+                });
+
+                imguper.UpladFile(file, _that.getHost() + 'wx/upload?openid=' + _that.getOpenid());
+
+
+            },
+            onSubmit: function (e, _that) {
+                if((/^\s{1,}$/).test(_that.reqData.reportContent) ||  _that.reqData.reportContent.length<1){
+                    msg.show("请填写报事内容！",{autoHide:1000});
+                    return;
+                }
+                if(_that.reqData.reportPicUrl==""){
+                    msg.show("请上传照片！",{autoHide:1000});
+                    return;
+                }
+
+                msg.show("数据保存中");
+
+                $.ajax({
+                    url: "wx/report",
+                    data: _that.reqData,
+                    type:"post",
+                    success: function (resp) {
+                        var data = Object.prototype.toString.call(resp) == "[object String]" ? JSON.parse(resp) : resp;
+                        if (data.code < 0) {
+                            msg.show(data.msg, {autoHide: 1500});
+                        }else{
+                            msg.show("操作成功！",{autoHide:1500,afterHide:function () {
+                                window.location = "./orderlist.html";
+                            }});
+                        }
+                    }
+                })
+            }
+
+        });
+    });
+</script>
+</body>
+</html>

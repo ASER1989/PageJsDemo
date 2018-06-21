@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta charset="UTF-8">
+    <title>报事列表</title>
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/comm.css">
+    <link rel="stylesheet" href="css/orderlist.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <script src="js/lib/me.require.js"></script>
+</head>
+<body id="orderlist" class="show">
+<div class="head">
+    <script id="_head_temp" type="text/html">
+        <div class="page-top">
+            <img src="./img/add/icon_0.png" alt="">
+            <label class="housename"><%=def.communityAddress%></label>
+            <div class="idx-top-msg idx-top-opt">
+                <select class="hide-houselist" data-bind-event="onHouseChange" data-event-type="change">
+                    <%for(var i=0,item;item=house[i++];){%>
+                    <option
+                    <%=def.id==item.id?'checked':''%> value="<%=item.id%>"> <%=item.communityAddress%></option>
+                    <%}%>
+                </select>
+                切换
+            </div>
+        </div>
+    </script>
+</div>
+<section class="ctx-box">
+
+</section>
+<script type="text/html" id="__temp">
+    <div class="ctx-form-item" data-event-type="click" data-bind-event="toPage" data-id="<%=id%>">
+        <div class="ctx-order-info">
+            <div class="order-img">
+                <img src="<%=host+reportPicUrl%>" alt="">
+            </div>
+            <div class="order-detail">
+                <div class="order-title">报修</div>
+                <p>报修时间：<%=format(createTime)%></p>
+                <%if(repairPerson){%>
+                <p>派单时间：<%=format(modifyTime)%></p>
+                <%}%>
+            </div>
+            <div class="order-state  <%=state==1?'order-state-orange':''%>">
+                <%=state==3?"已完成":"处理中"%>
+            </div>
+        </div>
+        <div class="ctx-order-detail">
+            <div class="order-ctx">
+                <p>
+                    <%=reportContent%>
+                </p>
+                <%if(repairPerson){%>
+                <p>接单人：<%=repairPerson.name%></p>
+                <%}%>
+            </div>
+            <div class="order-call">
+                <%if(repairPerson){%>
+                <a href="tel:<%=repairPerson.phoneNumber%>">
+                    <img src="./img/button_phone.png" alt="">
+                </a>
+                <%}%>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/javascript">
+    require(['http://res.wx.qq.com/open/js/jweixin-1.2.0.js', './js/page.js', './js/lib/underscore.js', './js/wxconfig.js', './js/msg.js'], function () {
+        page({
+            reqData: {},
+            onReady: function () {
+
+            },
+            timeFormat: function (t) {
+                if (t) {
+                    var date = new Date(Number(t));
+                    var m = date.getMonth() + 1,M=date.getMinutes();
+                    return date.getFullYear() + '/' + (m[1] ? m + 1 : '0' + m) + '/' + date.getDate()
+                        + " " + date.getHours() + ':' + (M[1] ? M : '0' + M);
+                }
+
+                return '';
+            },
+            onLoad: function () {
+                var _that = this;
+                msg.show("数加载中...")
+                $.ajax({
+                    url: "wx/getReport",
+                    data: _that.reqData,
+                    success: function (resp) {
+
+                        var res = Object.prototype.toString.call(resp) == "[object String]" ? JSON.parse(resp) : resp;
+                        if (res.code < 0) {
+                            msg.show(res.msg);
+                            return;
+                        }
+                        msg.hide();
+                        if (res.obj.length > 0) {
+                            var data = res.obj.reverse(),
+                                temp = _.template($("#__temp").html()),
+                                html = [];
+                            for (var i = 0, item; item = data[i++];) {
+                                item.host = _that.getHost();
+                                item.format = _that.timeFormat;
+                                html.push(temp(item));
+                            }
+
+                            $(".ctx-box").html(html.join(""));
+                        }
+                        else {
+                            $(".ctx-box").html("<div class='no-data'>暂无工单</div> ");
+                        }
+                        _that._eventRender();
+                    }
+                });
+            },
+            toPage: function () {
+                var id = $(this).attr("data-id");
+                window.location = "./orderdetail.html?id=" + id;
+            },
+            onUserReady: function (user, house, defhouse) {
+
+                this.houseList = house;
+                this.reqData = {
+                    "commityId": defhouse.id
+                };
+
+                var headtemp = _.template($("#_head_temp").html());
+
+                var headhtml = headtemp({def: defhouse, house: house})
+
+                $(".head").html(headhtml);
+
+                this._eventRender();
+                this.onLoad();
+            },
+            onHouseChange: function (e, _that) {
+                var selid = $(this).val();
+                var house = _.find(_that.houseList, function (item) {
+                    return item.id == selid;
+                })
+
+                _that.reqData["commityId"] = house.id;
+                $(".housename").html(house.communityAddress);
+                _that.onLoad();
+            },
+            onImgprew:function () {
+                
+            }
+
+        });
+    });
+</script>
+</body>
+</html>
